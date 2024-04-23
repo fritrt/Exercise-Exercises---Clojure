@@ -5,7 +5,10 @@
   [word]
   (str/split word #""))
 
-
+(map-word "listen")
 (defn anagrams-for [word prospect-list] ;; <- arglist goes here
   ;; your code goes here
-  (compare word "listen"))
+  #_(compare word "listen")
+  ())
+(recur)
+
