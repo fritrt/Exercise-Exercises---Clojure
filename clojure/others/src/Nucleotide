@@ -1,0 +1,35 @@
+(ns nucleotide-count
+  (:require [clojure.string :as str]))
+
+(defn count-of-nucleotide-in-strand [nucleotide strand] ;; <- Arglist goes here
+  ;; your code goes here
+  (cond 
+    (or (= nucleotide \A) 
+           (= nucleotide \C) 
+           (= nucleotide \G) 
+           (= nucleotide \T)) 
+    (count (filter #(= nucleotide %) strand))
+    :else (throw (Exception. (str "Invalid nucleotide: " nucleotide)))))
+
+(count-of-nucleotide-in-strand \X "GACT")
+
+
+(defn nucleotide-counts [strand] ;; <- Arglist goes here
+  ;; your code goes here
+  (let [counts {\A 0, \C 0, \G 0, \T 0}] 
+    (map update (fn [k v] 
+           (filter #(= k %) strand)) counts)
+    ))
+
+(nucleotide-counts "ACGTACGT")
+
+(defn nucleotide-counts2 [strand]
+  (let [counts {\A 0, \C 0, \G 0, \T 0}]
+    (reduce (fn [k v]
+              (if-let [count (get k v)]
+                (update k v inc)
+                (throw (Exception. (str "Invalid nucleotide: " v)))))
+            counts
+            strand)))
+
+(nucleotide-counts2 "ACGTACGT")
