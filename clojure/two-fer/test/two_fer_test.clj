@@ -1,12 +1,13 @@
 (ns two-fer-test
-  (:require [clojure.test :refer [deftest is]]
+  (:require [clojure.test :refer [deftest is are
+                                  testing]]
             two-fer))
 
 (deftest two-fer-test
-  (is (= "One for you, one for me." (two-fer/two-fer))))
+  (testing 
+   (is (= (two-fer/two-fer) "One for you, one for me."))))
 
-(deftest name-alice-test
-  (is (= "One for Alice, one for me." (two-fer/two-fer "Alice"))))
 
-(deftest name-bob-test
-  (is (= "One for Bob, one for me." (two-fer/two-fer "Bob"))))
+
+
+

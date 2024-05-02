@@ -16,8 +16,9 @@
   ;; your code goes here 
   (filter (partial anagram-of-word? word) prospect-list))
 
-(anagrams-for "banana" ["banana"])
-(anagrams-for "BANANA" ["banana"])
+(anagrams-for "diaper" ["hello" "world" "zombies" "pants"])
+(anagrams-for "ant" ["tan" "stand" "at"])
+
 
 
 
