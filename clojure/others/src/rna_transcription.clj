@@ -1,6 +1,7 @@
 (ns rna-transcription
   (:require [clojure.string :as str]))
 
+
 (defn convert [RNA]
   (cond
     (= "C" RNA) "G"
