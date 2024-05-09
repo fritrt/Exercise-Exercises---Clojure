@@ -1,32 +1,30 @@
 (ns trinary
   (:require [clojure.string :as str]))
 
-(defn to-decimal [num] ;; <- arglist goes here
-      ;; your code goes here
-  (let [n (- (count (split num)) 1)]
-    ))
-
-(to-decimal "1")
-(int? (Integer/parseInt ""))
-(every? true? (map #(Character/isDigit %) [\1 \b]))
-(map #(char (Integer/parseInt %)) (str/split "12" #""))
+(defn validate [num]
+  (try
+    (do
+      (Integer/parseInt num)
+      true)
+    (catch Exception e
+      false)))
 
 (defn split [num]
-  (map #(Integer/parseInt %) (str/split num #"")))
+  (mapv #(Integer/parseInt %) (str/split num #"")))
 
-(every? true? (map #(int? %) (str/split "carrot" #"")))
-(Character/isLetter \c)
-(int? "c")
-(defn validate [num]
-  (if (every? false? (map #(int? %) (str/split num #"")))
-    false))
-(every? false? (map #(int? %) (str/split "c" #"")))
-(every? true? (map #(>= 2 %) (str/split "c")))
-(validate "12")
-(every? false? (map #(int? %) (str/split "12" #"")))
-(validate "102012")
-(every? false? (map #(int? %) (str/split "c" #"")))
+(defn inner [num]
+  (mapv #(int (Math/pow 3 %)) (range (dec (count num)) -1 -1)))
 
-(int? "a")
-(split "12")
-(range 10 -1 -1)
+(defn value [num]
+  (if (= 1 (count num))
+    (Integer/parseInt num)
+    (reduce + (map * (inner num) (split num)))))
+
+(defn to-decimal [num] ;; <- arglist goes here
+      ;; your code goes here
+  (if (validate num)
+    (value num)
+    0))
+
+
+
