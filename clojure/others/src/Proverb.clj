@@ -16,7 +16,3 @@
     ""
     (str/join "\n" (conj (mapv str (start list) (mid list)) (end list)))))
 
-(recite ["nail", "shoe", "horse", "rider", "message", "battle", "kingdom"])
-(recite (quote ("nail" "shoe")))
-(recite (quote ("nail" "shoe" "horse")))
-(recite ())
