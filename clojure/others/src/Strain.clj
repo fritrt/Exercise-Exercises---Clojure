@@ -13,7 +13,6 @@
   (filter #(action %) range))
 
 
-
 (defn create-even-map [m]
   (reduce (fn [acc [k v]]
             (if (even? k)
@@ -23,7 +22,5 @@
           m))
 
 
-(create-even-map {1 2 3 4 5})
 
-(def even-map (create-even-map my-map))
 

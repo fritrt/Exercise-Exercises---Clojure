@@ -1,46 +1,55 @@
 (ns pig-latin
   (:require [clojure.string :as str]))
 
+(def vowel #{"a" "e" "i" "o" "u" "ae" "xr" "yt"})
+(def consonant #{"b" "c" "d" "f" "g" "h" "j" "k" 
+                 "l" "m" "n" "p" "q" "r" "s" "t" "v" "w" "x" "y" "z"})
 
-(defn first-2 [s]
-  (take 2 (str/split s #"")))
+(defn split [word]
+  (str/split word #""))
 
-(defn last [s]
-  (drop 2 (str/split s #"")))
+(defn rule1 [word]
+  (or (->> (split word)
+            (first)
+            (vowel)
+            (boolean)) 
+      (->> (split word)
+           (take 2)
+           (str/join "")
+           (vowel)
+           (boolean))))
 
-(defn rule-1? [s]
-  (= (subs s 0 1) (re-matches #"[aeiou]" (subs s 0 1))))
 
-(rule-1? "ask")
+(defn rule2 [word]
+  (and (->> (split word)
+            (first)
+            (consonant)
+            (boolean))
+       (->> (split word)
+            (second)
+            (consonant)
+            (boolean))))
 
-(defn rule-2? [s]
-  (= (subs s 0 2) (re-matches #"[bcdfghjklmnpqrstvwxyz]" (subs s 0 2))))
+(rule2 "chair")
 
-(rule-2? "ask")
+(defn rule3 [word]
+  (and (->> (split word)
+            (first)
+            (consonant)
+            (boolean)) 
+       (->> (split word)
+            (second)
+            (consonant)
+            (boolean))))
 
-(defn rule-3? [s]
-  (boolean (or 
-            (some #(re-matches #"[bcdfghjklmnpqrstvwxyz]" (str %)) (first-2 s))
-            (some #(re-matches #"[qu]" (str %)) (first (last s)))
-            )))
-
-(rule-3? "square")
-
-(defn rule-4? [s]
-  (boolean (or
-            (some #(re-matches #"[bcdfghjklmnpqrstvwxyz]" (str %)) (first-2 s))
-            (some #(re-matches #"[y]" (str %)) (first (last s))))))
-
-(rule-4? "rhythm")
-
-(defn translate [s] ;; <- arglist goes here
-      ;; your code goes here
+(defn translate [word]
   (cond
-    (rule-1? s) "ay"
-    (rule-2? s) "nay")
-    :else "nope")
+    (true? (rule1 word)) (str word "ay")
+    (true? (rule2 word)) (str (str/join "" (drop 2 (split word))) (str/join "" (take 2 (split word))) "ay") 
+    (true? (rule3 word)) (str (str/join "" (rest (split word))) (str (take 2 (split word))) "ay")
+    :else false))
 
-(translate "ask")
+(translate "rhythm")
+(translate "therapy")
 
-(def s "xray")
-(str/join "" (first-2 s))
+

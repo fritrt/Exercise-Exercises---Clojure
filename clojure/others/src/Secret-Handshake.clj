@@ -1,17 +1,23 @@
-(ns secret-handshake
-  (:require [clojure.string :as str]))
+(ns secret-handshake)
 
-(def actions
-  {00001 "wink", 
-   00010 "double blink", 
-   00100 "close your eyes", 
-   01000 "jump", 
-   10000 ""})
+(def numbers->commands
+  {0 "wink", 
+   1 "double blink", 
+   2 "close your eyes", 
+   3 "jump"})
 
-(actions 00010)
+
 (defn commands [num] ;; <- arglist goes here
       ;; your code goes here
-  (reverse (str/split (Long/toBinaryString num) #"")))
+  (let [commands (->> (range 4)
+                      (filter #(bit-test num %))
+                      (map numbers->commands))]
+    (if (bit-test num 4)
+      (reverse commands)
+      commands)))
 
-(get (vec (commands 10)) 0)
-(commands 10)
+
+(commands 32)
+
+(range 4)
+
